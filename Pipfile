@@ -12,10 +12,6 @@ scipy = "*"
 sympy = "*"
 
 [dev-packages]
-pre-commit = "*"
-flake8 = "*"
-isort = "*"
-autopep8 = "*"
 
 [requires]
 python_version = "3.9"
