@@ -9,6 +9,7 @@ flask-cors = "*"
 numpy = "*"
 pandas = "*"
 scipy = "*"
+sympy = "*"
 
 [dev-packages]
 pre-commit = "*"
