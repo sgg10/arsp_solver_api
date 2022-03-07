@@ -160,3 +160,4 @@ cython_debug/
 
 # Custom
 alias.sh
+load_flask.sh
