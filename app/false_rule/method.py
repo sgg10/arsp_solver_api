@@ -1,62 +1,53 @@
 from sympy import Function, Symbol
 from sympy.parsing.sympy_parser import parse_expr
 
-class Bisection:
-    f = Function("fX")
 
-    def __init__(self, x0, x1, tolerance, iterations, function, **kwargs):
-        self.xl = x0
-        self.xh = x1
-        self.tol = tolerance
-        self.iter = iterations
+class FalseRule:
+    f = Function("fx")
+
+    def __init__(self, x0, x1, function, tolerance, iterations, **kwargs):
+        self.xl = float(x0)
+        self.xh = float(x1)
         self.function = function
+        self.tol = tolerance
+        self.iter = int(iterations)
         self.array = []
 
     def run(self):
         f = parse_expr(self.function)
-        x = Symbol("x")
+        x = Symbol('x')
         fxl = f.subs(x, self.xl)
         fxh = f.subs(x, self.xh)
 
         if fxl == 0:
             return {
                 "method_status": "success",
-                "result": f"{self.xl} is a root",
+                "result": f"{fxl} is a root"
             }
         elif fxh == 0:
             return {
                 "method_status": "success",
-                "result": f"{self.xh} is a root",
-                "iterations": self.array
+                "result": f"{fxh} is a root"
             }
-        elif fxl * fxh > 0:
-            return {
-                "method_status": "failed",
-                "result": "The interval does not have a root"
-            }
-        else:
+        elif fxl * fxh < 0:
+            xm = self.xl - ((fxl * (self.xl - self.xh)) / (fxl - fxh))
             error = self.tol + 1
-            xm = (self.xl + self.xh) / 2
             for i in range(self.iter):
                 fxm = f.subs(x, xm)
-
-                if fxm == 0 or error <= self.tol or i >= self.iter:
+                if fxm == 0 or error <= self.tol:
                     break
 
                 if fxl * fxh < 0:
                     self.xh = xm
                     fxh = f.subs(x, self.xh)
-                    # self.array.append([str(i), str(self.xl), str(xm), str(self.xh), str(fxm), str(error)])
                 else:
                     self.xl = xm
                     fxl = f.subs(x, self.xl)
 
                 x_aux = xm
-                xm = (self.xl + self.xh) / 2
+                xm = self.xl - ((fxl * (self.xl - self.xh)) / (fxl - fxh))
                 error = abs(xm - x_aux)
-                self.array.append([str(i), str(self.xl), str(xm), str(self.xh), str(fxm), str(error)])
-
-            print(self.array)
+                self.array.append([str(i), str(self.xl), str(xm), str(self.xl), str(fxm), str(error)])
 
             if fxm == 0:
                 return {
@@ -76,3 +67,9 @@ class Bisection:
                     "result": "Max interactions exceeded",
                     "iterations": self.array
                 }
+
+        else:
+            return {
+                "method_status": "failed",
+                "result": f"The interval does not meet the conditions to search for a root"
+            }

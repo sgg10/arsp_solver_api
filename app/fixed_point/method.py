@@ -7,7 +7,7 @@ class FixedPoint:
     f = Function("fx")
     g = Function("gx")
 
-    def __init__(self, xa, tolerance, iterations, f, g):
+    def __init__(self, xa, tolerance, iterations, f, g, **kwargs):
         self.xa = float(xa)
         self.tol = tolerance
         self.iter = int(iterations)
@@ -46,5 +46,6 @@ class FixedPoint:
         else:
             return {
                 "method_status": "failed",
-                "result": "Max interactions exceeded"
+                "result": "Max interactions exceeded",
+                "iterations": self.array
             }
