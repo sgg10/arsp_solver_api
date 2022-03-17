@@ -1,23 +1,22 @@
 from flask import request
 
-from . import false_rule
-from .method import FalseRule
+from . import newton
+from .method import Newton
 
 
-@false_rule.route('', methods=['GET', 'POST'])
-def false_rule_method():
+@newton.route('', methods=['GET', 'POST'])
+def newton_method():
     try:
         if request.method == "POST":
-            return FalseRule(**request.get_json()).run()
+            return Newton(**request.get_json()).run()
         else:
             return {
                 "method": {
-                    "name": "False Rule",
+                    "name": "Newton",
                     "arguments": [
                         "function[REQUIRED]",
                         "iterations[REQUIRED]",
                         "x0[REQUIRED]",
-                        "x1[REQUIRED]",
                         "tolerance[REQUIRED]",
                     ]
                 }
@@ -25,5 +24,5 @@ def false_rule_method():
     except:
         return {
             "method_status": "error",
-            "message": "Missing 5 required arguments: [function, iterations, x0, x1, tolerance]"
+            "message": "Missing 4 required arguments: [function, iterations, x0, tolerance]"
         }
