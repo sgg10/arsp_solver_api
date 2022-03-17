@@ -5,6 +5,7 @@ from .Bisection import bisection
 from .fixed_point import fixed_point
 from .false_rule import false_rule
 from .Newton import newton
+from .secant import secant
 
 
 def create_app():
@@ -15,5 +16,6 @@ def create_app():
     app.register_blueprint(fixed_point)
     app.register_blueprint(false_rule)
     app.register_blueprint(newton)
+    app.register_blueprint(secant)
 
     return app
