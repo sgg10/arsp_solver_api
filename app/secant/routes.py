@@ -5,7 +5,7 @@ from .method import Secant
 
 
 @secant.route('', methods=['GET', 'POST'])
-def newton_method():
+def secant_method():
     try:
         if request.method == "POST":
             return Secant(**request.get_json()).run()
