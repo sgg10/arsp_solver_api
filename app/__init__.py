@@ -8,6 +8,7 @@ from .Newton import newton
 from .secant import secant
 from .multi_root import multi_root
 from .gaussian_elimination import gaussian_elimination
+from .partial_pivot import partial_pivot
 
 
 def create_app():
@@ -21,5 +22,6 @@ def create_app():
     app.register_blueprint(secant)
     app.register_blueprint(multi_root)
     app.register_blueprint(gaussian_elimination)
+    app.register_blueprint(partial_pivot)
 
     return app
