@@ -1,0 +1,2 @@
+class Trisection:
+    pass
