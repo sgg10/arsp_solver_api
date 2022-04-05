@@ -64,7 +64,7 @@ class MultiRoot:
                 "method_status": "success",
                 "result": f"{self.x0} is a multiple root of multiplicity 2",
                 "iterations": self.array
-            }   
+            }
         else:
             return {
                 "method_status": "failed",

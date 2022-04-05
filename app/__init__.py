@@ -7,6 +7,7 @@ from .false_rule import false_rule
 from .Newton import newton
 from .secant import secant
 from .multi_root import multi_root
+from .gaussian_elimination import gaussian_elimination
 
 
 def create_app():
@@ -19,5 +20,6 @@ def create_app():
     app.register_blueprint(newton)
     app.register_blueprint(secant)
     app.register_blueprint(multi_root)
+    app.register_blueprint(gaussian_elimination)
 
     return app
