@@ -9,6 +9,7 @@ from .secant import secant
 from .multi_root import multi_root
 from .gaussian_elimination import gaussian_elimination
 from .partial_pivot import partial_pivot
+from .total_pivot import total_pivot
 
 
 def create_app():
@@ -23,5 +24,6 @@ def create_app():
     app.register_blueprint(multi_root)
     app.register_blueprint(gaussian_elimination)
     app.register_blueprint(partial_pivot)
+    app.register_blueprint(total_pivot)
 
     return app
