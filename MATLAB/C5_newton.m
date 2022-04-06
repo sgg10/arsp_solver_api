@@ -22,18 +22,22 @@ function [x,iter,err]=C5_newton(f,df,x0,tol,Nmax)
 xant=x0;
 fant=f(xant);
 dfant=df(xant);
-E=1000; 
+E=1000;
 cont=0;
 
-tbl = [cont,xant,fant,dfant,E];
+tbl = [cont,xant,fant,dfant,NaN];
 
 %Ciclo
 while E>tol && cont<Nmax
+
   xact=xant-fant/(df(xant));
   fact=f(xact);
   dfact=df(xact);
+
   E=abs(xact-xant);
+
   cont=cont+1;
+
   xant=xact;
   fant=fact;
   dfant=dfact;

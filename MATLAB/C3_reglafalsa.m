@@ -26,11 +26,10 @@ fpm=f(pm);
 E=1000; 
 cont=1;
 
-tbl = [];
+tbl = [cont,a,fa,b,fb,NaN];
 
 %Ciclo
 while E>tol && cont<Nmax
-  tbl = [tbl;cont,a,fa,b,fb,E];
   if fa*fpm<0
      b=pm; 
   else
@@ -43,6 +42,7 @@ while E>tol && cont<Nmax
   cont=cont+1;
   fa=f(a);
   fb=f(b);
+  tbl = [tbl;cont,a,fa,b,fb,E];
 end
 
 %Crear tabla a mostrar
@@ -53,4 +53,5 @@ disp(T);
 x=pm;
 iter=cont;
 err=E;
+
 end

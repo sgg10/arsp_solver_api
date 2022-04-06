@@ -23,14 +23,13 @@ fa=f(a);
 fb=f(b);
 pm=(a+b)/2;
 fpm=f(pm);
-E=10000000000000;
+E=10000;
 cont=1;
 
-tbl = [];
+tbl = [cont,a,fa,b,fb,NaN];
 
 %Ciclo
 while E>tol && cont<Nmax
-  tbl = [tbl;cont,a,fa,b,fb,E];
   if fa*fpm<0
      b=pm; 
   else
@@ -39,10 +38,13 @@ while E>tol && cont<Nmax
   p0=pm;
   pm=(a+b)/2;
   fpm=f(pm);
+  format shortE
   E=abs(pm-p0);
+  format short
   cont=cont+1;
   fa=f(a);
   fb=f(b);
+  tbl = [tbl;cont,a,fa,b,fb,E];
 end
 
 %Crear tabla a mostrar

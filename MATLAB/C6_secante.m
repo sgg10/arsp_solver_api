@@ -22,8 +22,10 @@ function [x,iter,err]=C6_secante(f,x0,x1,tol,Nmax)
 f0=f(x0);
 f1=f(x1);
 E=1000; 
+cont=0;
+tbl = [cont,x0,f0, NaN];
 cont=1;
-tbl = [cont,x1,f1, E];
+tbl = [tbl; cont,x1,f1, NaN];
 
 %Ciclo
 while E>tol && cont<Nmax

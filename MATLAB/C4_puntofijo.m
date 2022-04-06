@@ -23,7 +23,7 @@ xant=x0;
 E=1000; 
 cont=0;
 
-tbl = [cont,xant,g(xant),E];
+tbl = [cont,xant,g(xant),NaN];
 
 
 %Ciclo
