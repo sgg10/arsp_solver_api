@@ -16,7 +16,7 @@
 %Creado por: Samir Posada
 %última actualización: 16/07/2020
 
-function [x,iter,err, T]=C2_biseccion(f,a,b,tol,Nmax)
+function [x,iter,err]=C2_biseccion(f,a,b,tol,Nmax)
 
 %Inicialización
 fa=f(a);

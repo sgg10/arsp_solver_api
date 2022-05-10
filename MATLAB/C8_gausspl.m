@@ -35,10 +35,6 @@ for i=1:n-1
     for j=i+1:n
         if M(j,i)~=0
            M(j,i:n+1)=M(j,i:n+1)-(M(j,i)/M(i,i))*M(i,i:n+1);
-        else
-            fprintf(fileID,'%s\r\n',"---------------");
-            fprintf(fileID,'%s\r\n',"ERROR: La diagonal tiene un cero."); % Imprime el número de la etapa
-            fprintf(fileID,'%s\r\n',"---------------");
         end
     end
 
