@@ -1,2 +1,0 @@
-class Tridiagonal:
-    pass

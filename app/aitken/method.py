@@ -1,2 +1,0 @@
-class Aitken:
-    pass
