@@ -1,18 +1,18 @@
 from flask import request
 
-from . import croult
-from .method import Croult
+from . import doolittle
+from .method import Doolittle
 
 
-@croult.route('', methods=['GET', 'POST'])
-def croult_method():
+@doolittle.route('', methods=['GET', 'POST'])
+def doolittle_method():
     try:
         if request.method == "POST":
-            return Croult(**request.get_json()).run()
+            return Doolittle(**request.get_json()).run()
         else:
             return {
                 "method": {
-                    "name": "Croult",
+                    "name": "Doolittle",
                     "arguments": [
                         "A[REQUIRED]",
                         "B[REQUIRED]",

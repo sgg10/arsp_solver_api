@@ -12,6 +12,8 @@ from .partial_pivot import partial_pivot
 from .total_pivot import total_pivot
 from .simple_lu import simple_lu
 from .parcial_lu import parcial_lu
+from .croult import croult
+from .doolittle import doolittle
 
 
 def create_app():
@@ -29,5 +31,7 @@ def create_app():
     app.register_blueprint(total_pivot)
     app.register_blueprint(simple_lu)
     app.register_blueprint(parcial_lu)
+    app.register_blueprint(croult)
+    app.register_blueprint(doolittle)
 
     return app
