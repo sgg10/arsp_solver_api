@@ -17,6 +17,7 @@ from .doolittle import doolittle
 from .cholesky import cholesky
 from .jacobi import jacobi
 from .gauss_seidel import gauss_seidel
+from .sor import sor
 
 
 def create_app():
@@ -39,5 +40,6 @@ def create_app():
     app.register_blueprint(cholesky)
     app.register_blueprint(jacobi)
     app.register_blueprint(gauss_seidel)
+    app.register_blueprint(sor)
 
     return app
