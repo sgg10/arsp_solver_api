@@ -10,6 +10,7 @@ from .multi_root import multi_root
 from .gaussian_elimination import gaussian_elimination
 from .partial_pivot import partial_pivot
 from .total_pivot import total_pivot
+from .simple_lu import simple_lu
 
 
 def create_app():
@@ -25,5 +26,6 @@ def create_app():
     app.register_blueprint(gaussian_elimination)
     app.register_blueprint(partial_pivot)
     app.register_blueprint(total_pivot)
+    app.register_blueprint(simple_lu)
 
     return app
