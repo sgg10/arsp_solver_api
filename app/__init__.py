@@ -19,6 +19,7 @@ from .jacobi import jacobi
 from .gauss_seidel import gauss_seidel
 from .sor import sor
 from .vandermonde import vandermonde
+from .newton_difdiv import newton_difdiv
 
 
 def create_app():
@@ -43,5 +44,6 @@ def create_app():
     app.register_blueprint(gauss_seidel)
     app.register_blueprint(sor)
     app.register_blueprint(vandermonde)
+    app.register_blueprint(newton_difdiv)
 
     return app
