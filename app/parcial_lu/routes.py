@@ -1,27 +1,26 @@
 from flask import request
 
-from . import simple_lu
-from .method import Simple_LU
+from . import parcial_lu
+from .method import Parcial_LU
 
 
-@simple_lu.route('', methods=['GET', 'POST'])
-def simple_lu_method():
+@parcial_lu.route('', methods=['GET', 'POST'])
+def parcial_lu_method():
     try:
         if request.method == "POST":
-            return Simple_LU(**request.get_json()).run()
+            return Parcial_LU(**request.get_json()).run()
         else:
             return {
                 "method": {
-                    "name": "Simple LU",
+                    "name": "Parcial LU",
                     "arguments": [
                         "A[REQUIRED]",
                         "b[REQUIRED]",
-                        "n[REQUIRED]",
                     ]
                 }
             }
     except:
         return {
             "method_status": "error",
-            "message": "Missing 3 required arguments: [A, b, n]"
+            "message": "Missing 2 required arguments: [A, b, n]"
         }
