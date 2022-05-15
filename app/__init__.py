@@ -14,6 +14,7 @@ from .simple_lu import simple_lu
 from .parcial_lu import parcial_lu
 from .croult import croult
 from .doolittle import doolittle
+from .cholesky import cholesky
 
 
 def create_app():
@@ -33,5 +34,6 @@ def create_app():
     app.register_blueprint(parcial_lu)
     app.register_blueprint(croult)
     app.register_blueprint(doolittle)
+    app.register_blueprint(cholesky)
 
     return app

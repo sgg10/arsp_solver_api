@@ -8,7 +8,7 @@ class Doolittle:
         self.Z = []
         self.L = []
 
-        self.n = n
+        self.n = int(n)
         self.A = A
         self.B = B
 
