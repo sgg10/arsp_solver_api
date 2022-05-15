@@ -22,6 +22,8 @@ from .vandermonde import vandermonde
 from .newton_difdiv import newton_difdiv
 from .larange import larange
 from .lineal_spline import lineal_spline
+from .cuadratic_spline import cuadratic_spline
+from .cubic_spline import cubic_spline
 
 
 def create_app():
@@ -49,5 +51,7 @@ def create_app():
     app.register_blueprint(newton_difdiv)
     app.register_blueprint(larange)
     app.register_blueprint(lineal_spline)
+    app.register_blueprint(cuadratic_spline)
+    app.register_blueprint(cubic_spline)
 
     return app
