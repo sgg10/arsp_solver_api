@@ -1,18 +1,18 @@
 from flask import request
 
-from . import lineal_split
-from .method import LinealSplit
+from . import lineal_spline
+from .method import LinealSpline
 
 
-@lineal_split.route('', methods=['GET', 'POST'])
-def lineal_split_method():
+@lineal_spline.route('', methods=['GET', 'POST'])
+def lineal_spline_method():
     try:
         if request.method == "POST":
-            return LinealSplit(**request.get_json()).run()
+            return LinealSpline(**request.get_json()).run()
         else:
             return {
                 "method": {
-                    "name": "Lineal Split",
+                    "name": "Lineal Spline",
                     "arguments": [
                         "n[REQUIRED]",
                         "x[REQUIRED]",

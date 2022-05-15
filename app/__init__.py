@@ -21,7 +21,7 @@ from .sor import sor
 from .vandermonde import vandermonde
 from .newton_difdiv import newton_difdiv
 from .larange import larange
-from .lineal_split import lineal_split
+from .lineal_spline import lineal_spline
 
 
 def create_app():
@@ -48,6 +48,6 @@ def create_app():
     app.register_blueprint(vandermonde)
     app.register_blueprint(newton_difdiv)
     app.register_blueprint(larange)
-    app.register_blueprint(lineal_split)
+    app.register_blueprint(lineal_spline)
 
     return app

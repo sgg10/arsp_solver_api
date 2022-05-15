@@ -1,4 +1,4 @@
-class LinealSplit:
+class LinealSpline:
     def __init__(self, n, x, y):
         self.n = int(n)
         self.x = x
