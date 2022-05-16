@@ -3,7 +3,7 @@ import numpy as np
 
 
 class Croult(BaseMethod):
-    def __init__(self, n, A, B):
+    def __init__(self, n, A, b):
         self.X = []
         self.U = []
         self.Z = []
@@ -11,7 +11,7 @@ class Croult(BaseMethod):
 
         self.n = n
         self.A = A
-        self.B = B
+        self.B = b
 
     def run(self):
         self.n = int(self.n)
@@ -50,4 +50,4 @@ class Croult(BaseMethod):
             for j in range(i, self.n):
                 sum += self.U[i][j] * self.X[j]
             self.X[i] = ((self.Z[i] - sum) / self.U[i][i])
-        return (self.X)
+        return {"x": [x[0] for x in self.X]}

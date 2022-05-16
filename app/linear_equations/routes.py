@@ -12,14 +12,14 @@ def gaussian_elimination_method():
         "method": {
             "name": "Gaussian Elimination",
             "arguments": [
-                "n[REQUIRED]",
                 "A[REQUIRED]",
+                "b[REQUIRED]",
             ]
         }
     }
     error_res = {
         "method_status": "error",
-        "message": "Missing 2 required arguments: [A, n]"
+        "message": "Missing 2 required arguments: [A, b]"
     }
     return method_response(GaussianElimination, get_res, error_res)
 
@@ -225,7 +225,7 @@ def sor_method():
 
 
 @linear_equations.route("iterative/vandermonde", methods=['GET', 'POST'])
-def sor_method():
+def vandermonde_method():
     get_res = {
         "method": {
             "name": "Vandermonde",

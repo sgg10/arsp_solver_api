@@ -3,7 +3,7 @@ import numpy as np
 
 
 class Doolittle(BaseMethod):
-    def __init__(self, n, A, B):
+    def __init__(self, n, A, b):
         self.X = []
         self.U = []
         self.Z = []
@@ -11,7 +11,7 @@ class Doolittle(BaseMethod):
 
         self.n = int(n)
         self.A = A
-        self.B = B
+        self.B = b
 
     def run(self):
         self.L = np.zeros([self.n, self.n])
@@ -31,10 +31,10 @@ class Doolittle(BaseMethod):
                 self.L[i][k] = (self.A[i][k] - sum) / self.U[k][k]
         # ------Calcula Lz = B ----------#
         for i in range(self.n):
-            sum = 0
+            _sum = 0
             for j in range(i):
-                sum += self.L[i][j] * self.Z[j]
-            self.Z.append(self.B[i] - sum)
+                _sum += self.L[i][j] * self.Z[j]
+            self.Z.append(self.B[i][0] - _sum)
 
         # ------------Calcula Ux=Z----------------------#
         for i in range(self.n):
@@ -44,4 +44,5 @@ class Doolittle(BaseMethod):
             for j in range(i, self.n):
                 sum += self.U[i][j] * self.X[j]
             self.X[i] = ((self.Z[i] - sum) / self.U[i][i])
-        return (self.X)
+
+        return {"x": self.X}

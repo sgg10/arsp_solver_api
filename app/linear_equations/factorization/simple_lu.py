@@ -39,7 +39,7 @@ class SimpleLU(BaseMethod):
         L = np.eye(self.n)
         U = np.zeros((self.n, self.n))
         M = self.A
-        result = {"iterations": [{"stage": 0, "M": M}]}
+        result = {"iterations": [{"stage": 0, "M": list(map(lambda x: list(x), M))}]}
         for i in range(0, self.n - 1):
             for j in range(i + 1, self.n):
                 if M[j, i] != 0:
@@ -47,9 +47,14 @@ class SimpleLU(BaseMethod):
                     M[j, i:self.n] = np.subtract(M[j, i:self.n], (np.divide(M[j, i], M[i, i])) * M[i, i:self.n])
                 U[i, i:self.n] = M[i, i:self.n]
                 U[i + 1, i + 1:self.n] = M[i + 1, i + 1:self.n]
-                result['iterations'].append({"stage": i + 1, "M": M, "L": L, "U": U})
+                result['iterations'].append({
+                    "stage": i + 1,
+                    "M": list(map(lambda x: list(x), M)),
+                    "L": list(map(lambda x: list(x), L)),
+                    "U": list(map(lambda x: list(x), U))
+                })
         MLB = np.concatenate((L, self.b), axis=1)
         z = self.proggresive_subst(MLB)
         MUZ = np.concatenate((U, z), axis=1)
-        result['result'] = self.back_subst(MUZ)
+        result['result'] = list(map(lambda x: x[0], self.back_subst(MUZ)))
         return result

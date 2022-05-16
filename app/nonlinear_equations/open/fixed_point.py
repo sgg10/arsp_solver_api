@@ -37,12 +37,14 @@ class FixedPoint(BaseMethod):
         if fx == 0:
             return {
                 "method_status": "success",
-                "result": f'{self.xa} is a root'
+                "result": f'{self.xa} is a root',
+                "iterations": self.array
             }
         elif error < self.tol:
             return {
                 "method_status": "success",
-                "result": f'{self.xa} approaches a root of the function with a tolerance of {self.tol}'
+                "result": f'{self.xa} approaches a root of the function with a tolerance of {self.tol}',
+                "iterations": self.array
             }
         else:
             return {

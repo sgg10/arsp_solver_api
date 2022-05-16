@@ -4,7 +4,7 @@ import math
 
 
 class Cholesky(BaseMethod):
-    def __init__(self, n, A, B):
+    def __init__(self, n, A, b):
         self.X = []
         self.U = []
         self.Z = []
@@ -12,7 +12,7 @@ class Cholesky(BaseMethod):
 
         self.n = int(n)
         self.A = A
-        self.B = B
+        self.B = b
 
     def resolverMatriz(self, L, U, B, n):
         Y = [0] * n
@@ -86,4 +86,4 @@ class Cholesky(BaseMethod):
     def run(self):
         L = np.zeros([self.n, self.n])
         U = np.zeros([self.n, self.n])
-        return self.conversionL(self.A, L, U, self.B, self.n)
+        return {"x": [x[0] for x in self.conversionL(self.A, L, U, self.B, self.n)]}

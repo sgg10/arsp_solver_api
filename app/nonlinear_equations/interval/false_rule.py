@@ -33,12 +33,13 @@ class FalseRule(BaseMethod):
         elif fxl * fxh < 0:
             xm = self.xl - ((fxl * (self.xl - self.xh)) / (fxl - fxh))
             error = self.tol + 1
+            self.array.append(["i", "x0", "x1", "xm", "f(xm)", "error"])
             for i in range(self.iter):
                 fxm = f.subs(x, xm)
                 if fxm == 0 or error <= self.tol:
                     break
 
-                if fxl * fxh < 0:
+                if fxl * fxm < 0:
                     self.xh = xm
                     fxh = f.subs(x, self.xh)
                 else:

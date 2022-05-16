@@ -5,13 +5,13 @@ from numpy import size, eye, zeros
 
 class PartialLU(BaseMethod):
     def __init__(self, A, b):
-        self.A = A
-        self.b = b
+        self.A = np.array(A)
+        self.b = np.array(b)
         self.n = len(A)
         self.L = eye(self.n)
         self.U = zeros(self.n)
         self.P = eye(self.n)
-        self.M = A
+        self.M = np.array(A)
 
     def proggresive_subst(self, M):
         n = len(M)

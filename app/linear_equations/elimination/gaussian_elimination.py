@@ -1,36 +1,56 @@
+import numpy as np
 from app.utils.methods import BaseMethod
 
 
 class GaussianElimination(BaseMethod):
+    def __init__(self, A, b):
+        self.A = np.array(A)
+        self.A = np.array(A, dtype=float)
+        self.b = np.array(b)
+        self.AB = np.concatenate((self.A, self.b), axis=1)
+        self.n, self.m = np.shape(self.AB)
 
-    def __init__(self, n, A):
-        self.n = int(n)
-        self.A = A
-        self.array = []
-        self.matrixs = []
-        self.targets = []
-        self.multipliers = []
-        # self.convert_to_array = lambda matrix: [matrix[row] for row in sorted(list(matrix))]
+    def swap_rows(self, AB):
+        for i in range(0, self.n-1, 1):
+            col = abs(AB[i:, i])
+            _max = np.argmax(col)
 
-    def backward_substitution(self, A, n):
-        x = [0] * n
-        for i in range(n - 1, 0, -1):
-            _sum = sum([A[i - 1][p - 1] * x[p - 1] for p in range(i + 1, n + 1, 1)])
-            x[i - 1] = (A[i - 1][n - 1] - _sum) / A[i - 1][i - 1]
-        return x
+            if _max != 0:
+                tmp = np.copy(AB[i, :])
+                AB[i, :] = AB[_max + i, :]
+                AB[_max + i, :] = tmp
+            print(AB)
+        return AB
+
+    def forward_elimination(self, AB):
+        stages = []
+        for i in range(0, self.n - 1, 1):
+            pivot = AB[i, i]
+            forward = i + 1
+            for k in range(forward, self.n, 1):
+                factor = AB[k, i]/pivot
+                AB[k, :] = AB[k, :] - AB[i, :]*factor
+            stages.append(list(map(lambda x: list(x), AB)))
+        return AB, stages
+
+    def backward_elimination(self, AB):
+        last_row = self.n - 1
+        last_col = self.m - 1
+        for i in range(last_row, -1, -1):
+            pivot = AB[i, i]
+            back = i - 1
+            for k in range(back, -1, -1):
+                factor = AB[k, i] / pivot
+                AB[k, :] = AB[k, :] - AB[i, :]*factor
+            AB[i, :] = AB[i, :] / AB[i, i]
+        x = np.copy(AB[:, last_col])
+        x = np.transpose([x])
+        return AB, x
 
     def run(self):
-        A = self.A
-        for k in range(1, self.n):
-            self.targets.append(f'Stage {k}. Target: put zeros under element A {k}{k} = {A[k - 1][k - 1]}')
-            for i in range(k, self.n):
-                multiplier = float(A[i][k - 1] / A[k - 1][k - 1])
-                self.multipliers.append(f'M{i}{k} = {multiplier}')
-                for j in range(k, self.n + 1):
-                    A[i][j - 1] = A[i][j - 1] - multiplier * A[k - 1][j - 1]
-                self.matrixs.append(str(A))
-        return {
-            "method_status": "success",
-            "result": self.backward_substitution(A, self.n),
-            "matrixs_iterations": self.matrixs
-        }
+        AB0 = self.swap_rows(self.AB)
+        AB1, stages = self.forward_elimination(AB0)
+        AB2, X = self.backward_elimination(AB1)
+        AB2 = list(map(lambda x: list(x), AB2))
+        X = list(map(lambda x: x[0], X))
+        return self.success_response({"x": X, "stages": stages})

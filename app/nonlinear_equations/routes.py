@@ -119,13 +119,14 @@ def secant_method():
                 "function[REQUIRED]",
                 "iterations[REQUIRED]",
                 "x0[REQUIRED]",
+                "x1[REQUIRED]",
                 "tolerance[REQUIRED]",
             ]
         }
     }
     error_res = {
         "method_status": "error",
-        "message": "Missing 4 required arguments: [function, iterations, x0, tolerance]"
+        "message": "Missing 5 required arguments: [function, iterations, x0, x1, tolerance]"
     }
     return method_response(Secant, get_res, error_res)
 
