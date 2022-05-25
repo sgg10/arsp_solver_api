@@ -2,13 +2,13 @@ from app.utils.methods import BaseMethod
 
 
 class Jacobi(BaseMethod):
-    def __init__(self, n, A, b, x0, niter, tolerancia):
+    def __init__(self, n, A, b, x0, iterations, tolerance):
         self.n = int(n)
         self.A = A
         self.b = b
         self.x0 = x0
-        self.niter = float(niter)
-        self.tolerancia = float(tolerancia)
+        self.niter = float(iterations)
+        self.tolerancia = float(tolerance)
         self.vector = []
 
     def run(self):
@@ -26,7 +26,7 @@ class Jacobi(BaseMethod):
         if dispersion < self.tolerancia:
             return (f'{x1} es una aproximación con una tolerancia: {self.tolerancia}')
         else:
-            return (x1)
+            return {"result": x1}
 
     def calcularNuevoJacobi(self, x0, n, b, A):
         x1 = []
@@ -36,9 +36,9 @@ class Jacobi(BaseMethod):
                 if j != i:
                     valor = x0.pop(j)
                     x0.insert(j, valor)
-                    suma += A[i][j] * valor
+                    suma += A[i][j] * valor[0] if type(valor) == list else valor
 
-            valor = b[i]
+            valor = b[i][0]
             elemento = (valor - suma) / A[i][i]
             x1.append(elemento)
         return x1
@@ -47,6 +47,7 @@ class Jacobi(BaseMethod):
         mayor = -1
         for i in range(n):
             valor0 = x0[i]
+            valor0 = valor0[0] if type(valor0) == list else valor0
             valor1 = x1[i]
             if abs(valor1 - valor0) > mayor:
                 mayor = abs(valor1 - valor0) / abs(valor1)

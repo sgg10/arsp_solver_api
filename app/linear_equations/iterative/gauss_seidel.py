@@ -2,13 +2,13 @@ from app.utils.methods import BaseMethod
 
 
 class GaussSeidel(BaseMethod):
-    def __init__(self, n, A, b, x0, niter, tol):
+    def __init__(self, n, A, b, x0, iterations, tolerance):
         self.n = int(n)
         self.A = A
         self.b = b
         self.x0 = x0
-        self.tol = float(tol)
-        self.niter = float(niter)
+        self.tol = float(tolerance)
+        self.niter = float(iterations)
         self.vector = []
 
     def calcularNuevoGaussSeidel(self, x0, n, b, A):
@@ -19,7 +19,8 @@ class GaussSeidel(BaseMethod):
                 if j != i:
                     valor = x0
                     x0.insert(j, valor)
-                    suma += A[i][j] * valor
+                    print(valor[0])
+                    suma += A[i][j] * valor[0] if type(valor) == list else valor
             valor = b.pop(i)
             b.insert(i, valor)
             elemento = (valor - suma) / A[i][i]

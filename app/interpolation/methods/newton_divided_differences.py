@@ -4,9 +4,9 @@ from sympy.parsing.sympy_parser import parse_expr
 
 
 class NewtonDifDiv(BaseMethod):
-    def __init__(self, n, tabla):
+    def __init__(self, n, table):
         self.n = int(n)
-        self.tabla = tabla
+        self.tabla = table
 
     def run(self):
         polinimio = f'P(X) = {self.tabla[0][1]}'

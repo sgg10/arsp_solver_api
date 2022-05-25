@@ -4,14 +4,14 @@ from sympy import *
 
 
 class SOR(BaseMethod):
-    def __init__(self, n, A, b, x0, omega, nIter, tol):
+    def __init__(self, n, A, b, x0, omega, iterations, tolerance):
         self.n = int(n)
         self.A = A
         self.b = b
         self.x0 = x0
         self.omega = float(omega)
-        self.nIter = int(nIter)
-        self.tol = float(tol)
+        self.nIter = int(iterations)
+        self.tol = float(tolerance)
 
     def calcularNuevoJacobi(self, x0, n, b, A, omega):
         x1 = []
@@ -21,12 +21,13 @@ class SOR(BaseMethod):
                 if i != j:
                     valor = x0.pop(j)
                     x0.insert(j, valor)
-                    suma += A[i][j] * valor
+                    suma += A[i][j] * (valor[0] if type(valor) == list else valor)
 
                 valor = b[i]
+                valor = valor[0] if type(valor) == list else valor
                 original = x0[i]
                 elemento = (valor - suma) / A[i][i]
-                r = omega * elemento + (1 - omega) * original
+                r = omega * elemento + (1 - omega) * (original[0] if type(original) == list else original)
                 x1.append(r)
         return x1
 
@@ -34,6 +35,7 @@ class SOR(BaseMethod):
         sumaCuadrados = 0
         for i in range(n):
             valor0 = x0[i]
+            valor0 = valor0[0] if type(valor0) == list else valor0
             valor1 = x1[i]
             sumaCuadrados += (valor1 - valor0) ** 2
 
@@ -51,7 +53,8 @@ class SOR(BaseMethod):
             self.x0 = x1
             contador += 1
             iters.append({'contador': contador, 'x0': self.x0, 'dispersion': dispersion})
+
         if dispersion < self.tol:
-            return {'result': f'{x1} es una aproximacion con una toleracia de: {self.tol}', 'iters': iters}
+            return {'result': f'{x1} es una aproximacion con una toleracia de: {self.tol}'}
         else:
-            return {'result': f'Fracaso en {self.nIter} iteraciones', 'iters': iters}
+            return {'result': f'Fracaso en {self.nIter} iteraciones', 'x': x1}

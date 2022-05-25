@@ -78,13 +78,13 @@ valoresConstantes = {}
 
 class QuadraticSpline(BaseMethod):
 
-    def __init__(self, x_values, y_values):
-        self.x_values = x_values
-        self.y_values = y_values
+    def __init__(self, x, y):
+        self.x_values = x
+        self.y_values = y
 
     def run(self):
         constanNum = 0
-        n = len(x)
+        n = len(self.x_values)
         for i in range(n):
             puntos.append([float(self.x_values[i]), float(self.y_values[i])])
         for i in range(1, n):
@@ -103,10 +103,12 @@ class QuadraticSpline(BaseMethod):
             constantsUseds.append(constants[constanNum + 1])
             constantsUseds.append(constants[constanNum + 2])
             constanNum += 3
-        for i in range(0, len(functions) - 1, 1):
+        for i in range(0, len(functions)):
             # print(diff(functions[i],x))
             # print(diff(functions[i+1],x))
-            f = diff(functions[i], x).subs(x, intervalos[i][1]) - diff(functions[i + 1], x).subs(x, intervalos[i + 1][0])
+            print(intervalos)
+            print(functions)
+            f = diff(functions[0], x).subs(x, intervalos[i][1]) - diff(functions[0], x).subs(x, intervalos[i + 1][0])
             functionsValues.append(f)
         functionsValues.append(diff(functions[0], x, 2).subs(x, intervalos[0][0]))
         # for i in range(0,len(functionsValues)):

@@ -89,9 +89,9 @@ valoresConstantes = {}
 
 
 class CubicSpline(BaseMethod):
-    def __init__(self, x_values, y_values):
-        self.x_values = x_values
-        self.y_values = y_values
+    def __init__(self, x, y):
+        self.x_values = x
+        self.y_values = y
 
     def run(self):
         constanNum = 0
