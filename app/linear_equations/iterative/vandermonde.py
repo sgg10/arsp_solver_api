@@ -1,23 +1,28 @@
-from app.utils.methods import BaseMethod
+from app.utils.methods import BaseMethod 
 from numpy import asarray, empty, promote_types, multiply
+import numpy as np
 
 
 class Vandermonde(BaseMethod):
 
-    def __init__(self, x):
+    def __init__(self, x, y):
         self.x = asarray(x)
+        self.y = asarray(y)
 
     def run(self):
-        if self.x.ndim != 1:
-            raise ValueError('x must be a one-dimensional array or sequence.')
-        N = len(self.x)
-        v = empty((N, N), dtype=promote_types(self.x.dtype, int))
-        temp = v[:, ::-1]
+        #Matrix of vandermonde 
+        vandermonde = empty((len(self.x), len(self.x)), dtype=promote_types(self.x.dtype, self.y.dtype))
+        for i in range(len(self.x)):
+            vandermonde[i, :] = self.x ** i
+        vandermonde = np.transpose(vandermonde[::-1])
 
-        if N > 0:
-            temp[:, 0] = 1
-        if N > 1:
-            temp[:, 1:] = self.x[:, None]
-            multiply.accumulate(temp[:, 1:], out=temp[:, 1:], axis=1)
-        result = str(v).replace('\n ', ',')
-        return {'result': result}
+        return {"result": {"vandermonde": vandermonde}}
+
+
+    '''
+    if __name__ == "__main__":
+        x=[2,3,4,5,6]
+        y=[2,6,5,5,6]
+        print(Vandermonde(x, y).run())
+    ''' 
+
