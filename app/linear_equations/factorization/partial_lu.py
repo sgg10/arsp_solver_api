@@ -4,57 +4,45 @@ from numpy import size, eye, zeros
 
 
 class PartialLU(BaseMethod):
-    def __init__(self, A, b):
+    def __init__(self, A):
         self.A = np.array(A)
-        self.b = np.array(b)
-        self.n = len(A)
-        self.L = eye(self.n)
-        self.U = zeros(self.n)
-        self.P = eye(self.n)
-        self.M = np.array(A)
 
-    def proggresive_subst(self, M):
-        n = len(M)
-        x = zeros([n, 1])
+    def lu_factor(self, A):
+        n = A.shape[0]
+        piv = np.arange(0,n)
+        for k in range(n-1):
 
-        x[0] = M[0, n] / M[0, 0]
-        array = [[1]]
-        for i in range(1, n):
-            aux = np.concatenate((array, np.transpose(x[0:i])), axis=1)
-            array_aux = [M[i - 1, n]]
-            aux_ = np.concatenate((array_aux, -M[i, 0:i]), axis=0)
-            x[i] = np.dot(aux, aux_) / M[i, i]
-        return x
+            # piv
+            max_row_index = np.argmax(abs(A[k:n,k])) + k
+            piv[[k,max_row_index]] = piv[[max_row_index,k]]
+            A[[k,max_row_index]] = A[[max_row_index,k]]
 
-    def back_subst(self, M):
-        n = len(M)
-        x = np.ones([n, 1])
-        for i in range(n - 1, -1, -1):
-            value = 0
-            for j in range(i + 1, n):
-                value += M[i, j] * x[j]
-            x[i] = (M[i, n] - value) / M[i, i]
-        return x
+            # LU 
+            for i in range(k+1,n):          
+                A[i,k] = A[i,k]/A[k,k]      
+                for j in range(k+1,n):      
+                    A[i,j] -= A[i,k]*A[k,j] 
+
+        return [A,piv]
+        
+    def ufsub(self,L,b):
+        """ Unit row oriented forward substitution """
+        for i in range(L.shape[0]): 
+            for j in range(i):
+                b[i] -= L[i,j]*b[j]
+        return b
+
+    def bsub(self,U,y):
+        """ Row oriented backward substitution """
+        for i in range(U.shape[0]-1,-1,-1): 
+            for j in range(i+1, U.shape[1]):
+                y[i] -= U[i,j]*y[j]
+            y[i] = y[i]/U[i,i]
+        return y
 
     def run(self):
-        for i in range(1, self.n - 1):
-            aux0, aux = max(abs(self.M[i + 1:self.n, i]))
-            if aux0 > abs(self.M(i, i)):
-                aux2 = self.M[i + aux, i:self.n]
-                aux3 = self.P[i + aux, i:self.n]
-                self.M[aux + i, i:self.n] = self.M[i, i:self.n]
-                self.P[aux + i, :] = self.P[i, :]
-                self.M[i, i:self.n] = self.P[i, :]
-                self.P[i, :] = aux3
-                if i > 1:
-                    aux4 = self.L[i + aux, 1:i - 1]
-                    self.L[i + aux, 1:i - 1] = self.L[i, 1:i - 1]
-                    self.L[i, 1:i - 1] = aux4
-            for j in range(i + 1, self.n):
-                if self.M[j, i] != 0:
-                    self.L[j, i] = self.M[j, i] / self.M[i, i]
-                    self.M[j, i:self.n] = self.M[j, i:self.n] - self.M[j, i] / self.M[i, i] * self.M[i, i:self.n]
-            self.U[i, i:self.n] = self.M[i, i:self.n]
-            self.U[i + 1, i + 1:self.n] = self.M[i + 1, i + 1:self.n]
-
-        return {"result": {"x": self.back_subst(self.U), "z": self.proggresive_subst(self.L)}}
+        LU, piv = self.lu_factor(self.A)
+        b = b[piv]
+        proggresive_subst = self.ufsub(LU, b)
+        back_subst = self.bsub( LU, proggresive_subst)
+        return {"result": {"x": back_subst, "z": proggresive_subst, "LU": LU, "piv": piv}}
