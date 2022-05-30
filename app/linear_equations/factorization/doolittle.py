@@ -14,6 +14,7 @@ class Doolittle(BaseMethod):
         self.B = b
 
     def run(self):
+        stages = []
         self.L = np.zeros([self.n, self.n])
         self.U = np.zeros([self.n, self.n])
         for i in range(self.n):  # inicializa diagonal L con 1's
@@ -29,6 +30,10 @@ class Doolittle(BaseMethod):
                 for p in range(k):
                     sum += self.L[i][p] * self.U[p][k]
                 self.L[i][k] = (self.A[i][k] - sum) / self.U[k][k]
+            stages.append({
+                "L": list(map(lambda x: list(x), self.L)),
+                "U": list(map(lambda x: list(x), self.U)),
+            })
         # ------Calcula Lz = B ----------#
         for i in range(self.n):
             _sum = 0
@@ -45,4 +50,11 @@ class Doolittle(BaseMethod):
                 sum += self.U[i][j] * self.X[j]
             self.X[i] = ((self.Z[i] - sum) / self.U[i][i])
 
-        return {"x": self.X}
+        return {
+            "method_status": "success",
+            "result": {
+                "stages": stages,
+                "x": [x[0] for x in self.X],
+                "z": [z[0] for z in self.Z]
+            }
+        }

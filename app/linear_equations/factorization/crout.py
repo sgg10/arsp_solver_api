@@ -14,6 +14,7 @@ class Croult(BaseMethod):
         self.B = b
 
     def run(self):
+        stages = []
         self.n = int(self.n)
         self.L = np.zeros([int(self.n), int(self.n)])
         self.U = np.zeros([int(self.n), int(self.n)])
@@ -30,6 +31,10 @@ class Croult(BaseMethod):
                 for p in range(k):
                     sum += self.L[k][p] * self.U[p][j]
                 self.U[k][j] = (self.A[k][j] - sum) / self.L[k][k]
+            stages.append({
+                "L": list(map(lambda x: list(x), self.L)),
+                "U": list(map(lambda x: list(x), self.U)),
+            })
 
         # ------------------Calcula Lz = B ----------#
         for i in range(self.n):
@@ -50,4 +55,12 @@ class Croult(BaseMethod):
             for j in range(i, self.n):
                 sum += self.U[i][j] * self.X[j]
             self.X[i] = ((self.Z[i] - sum) / self.U[i][i])
-        return {"x": [x[0] for x in self.X]}
+
+        return {
+            "method_status": "success",
+            "result": {
+                "stages": stages,
+                "x": [x[0] for x in self.X],
+                "z": [z[0] for z in self.Z]
+            }
+        }
