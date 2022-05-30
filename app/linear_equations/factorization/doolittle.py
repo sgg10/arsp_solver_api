@@ -54,7 +54,7 @@ class Doolittle(BaseMethod):
             "method_status": "success",
             "result": {
                 "stages": stages,
-                "x": [x[0] for x in self.X],
-                "z": [z[0] for z in self.Z]
+                "x": self.X,
+                "z": self.Z
             }
         }

@@ -45,8 +45,17 @@ class NewtonDifDiv(BaseMethod):
         return q,[f],pol
 
     def run(self):
-        m,coef, pol = self.divided_diff(self.x, self.y)
-        return {"result": {"Matrix":m, "Coef": coef, "Pol": pol}}
+        m, coef, pol = self.divided_diff(self.x, self.y)
+        m = list(map(lambda x: list(x), m))
+        coef = [coef[0][i] for i in range(len(coef[0]))]
+        print(m, type(m), type(m[0]))
+        return {
+            "method_status": "success",
+            "result": {
+                "matrix": m,
+                "coef": coef,
+                "pol": pol}
+        }
 
 """
 if __name__ == "__main__":

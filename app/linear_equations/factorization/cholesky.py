@@ -10,4 +10,6 @@ class Cholesky(BaseMethod):
     def run(self):
         L = scipy.linalg.cholesky(self.A, lower=True)
         U = scipy.linalg.cholesky(self.A, lower=False)
+        print(L)
+        print(U)
         return {'result': {"L: ":L,"U: ": U}}
