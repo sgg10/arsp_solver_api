@@ -1,54 +1,37 @@
-from app.utils.methods import BaseMethod
+#from app.utils.methods import BaseMethod
+from numpy import array, zeros, diag, diagflat, dot
+from sympy import jacobi
 
-
-class Jacobi(BaseMethod):
-    def __init__(self, n, A, b, x0, iterations, tolerance, **kwargs):
-        self.n = int(n)
+class Jacobi():
+    def __init__(self, A, b, N, x0=None, tol=0.000007, **kwargs):
         self.A = A
         self.b = b
+        self.n = N
         self.x0 = x0
-        self.niter = float(iterations)
-        self.tolerancia = float(tolerance)
-        self.vector = []
+        self.tol = tol
+
+    def jacobi(self, A, b, x0, n, tol):
+        x = x0
+        if x0 is None:
+            x0 = zeros(len(A[0]))
+        D = diag(A)
+        R = A - diagflat(D)
+
+        for i in range(n):
+            x0 = (b - dot(R, x)) / D
+            if abs(x0 - x).max() < tol:
+                break
+            x = x0
+        return x0
 
     def run(self):
-        contador = 0
-        dispersion = self.tolerancia + 1
-        x1 = []
-        self.vector.append([str(contador), str(self.x0), str(dispersion)])
-        while dispersion > self.tolerancia and contador < self.niter:
-            x1 = self.calcularNuevoJacobi(self.x0, self.n, self.b, self.A)
-            dispersion = self.norma(x1, self.x0, self.n)
-            self.x0 = x1
-            contador += 1
-            self.vector.append([str(contador), str(self.x0), str(dispersion)])
+        x = self.jacobi(self.A, self.b, self.x0, self.n, self.tol)
+        return {'result': {"sol": x}}
 
-        if dispersion < self.tolerancia:
-            return (f'{x1} es una aproximación con una tolerancia: {self.tolerancia}')
-        else:
-            return {"result": x1}
-
-    def calcularNuevoJacobi(self, x0, n, b, A):
-        x1 = []
-        for i in range(n):
-            suma = 0.0
-            for j in range(n):
-                if j != i:
-                    valor = x0.pop(j)
-                    x0.insert(j, valor)
-                    suma += A[i][j] * valor[0] if type(valor) == list else valor
-
-            valor = b[i][0]
-            elemento = (valor - suma) / A[i][i]
-            x1.append(elemento)
-        return x1
-
-    def norma(self, x1, x0, n):
-        mayor = -1
-        for i in range(n):
-            valor0 = x0[i]
-            valor0 = valor0[0] if type(valor0) == list else valor0
-            valor1 = x1[i]
-            if abs(valor1 - valor0) > mayor:
-                mayor = abs(valor1 - valor0) / abs(valor1)
-        return mayor
+if __name__ == "__main__":
+    A = [[4, 1, 1, 0, 1],[-1, -3, 1, 1, 0], [2, 1, 5, -1, -1], [-1, -2, -3, -4, 0], [0, 2, -1, 1, 4]]
+    b = [6,6,6,6,6]
+    x = [0,0,0,0,0]
+    N = 100
+    tol = 0.0000007
+    print(Jacobi( A, b, N, x, tol).run())
