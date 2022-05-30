@@ -5,7 +5,7 @@ from sympy.parsing.sympy_parser import parse_expr
 
 class MultiRoot(BaseMethod):
 
-    def __init__(self, x0, function, tolerance, iterations):
+    def __init__(self, x0, function, tolerance, iterations, **kwargs):
         self.x0 = float(x0)
         self.tol = float(tolerance)
         self.iter = int(iterations)

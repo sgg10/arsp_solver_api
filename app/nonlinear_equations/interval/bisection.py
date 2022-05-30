@@ -6,10 +6,10 @@ from sympy.parsing.sympy_parser import parse_expr
 class Bisection(BaseMethod):
 
     def __init__(self, x0, x1, tolerance, iterations, function, **kwargs):
-        self.xl = x0
-        self.xh = x1
-        self.tol = tolerance
-        self.iter = iterations
+        self.xl = float(x0)
+        self.xh = float(x1)
+        self.tol = float(tolerance)
+        self.iter = int(iterations)
         self.function = function
         self.array = []
 

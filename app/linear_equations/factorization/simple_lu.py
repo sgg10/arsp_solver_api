@@ -3,7 +3,7 @@ import numpy as np
 
 
 class SimpleLU(BaseMethod):
-    def __init__(self, A, b, n):
+    def __init__(self, A, b, n, **kwargs):
         self.A = np.array(A).reshape(n, n)
         self.b = np.array(b).reshape(len(b), 1)
         self.n = n

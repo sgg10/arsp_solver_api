@@ -6,11 +6,11 @@ from sympy.parsing.sympy_parser import parse_expr
 class Secant(BaseMethod):
     f = Function('fx')
 
-    def __init__(self, x0, x1, tolerance, iterations, function):
+    def __init__(self, x0, x1, tolerance, iterations, function, **kwargs):
         self.x0 = float(x0)
         self.x1 = float(x1)
-        self.tol = tolerance
-        self.iter = iterations
+        self.tol = float(tolerance)
+        self.iter = int(iterations)
         self.function = function
         self.array = []
 

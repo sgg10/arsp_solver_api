@@ -4,7 +4,7 @@ from numpy import size, eye, zeros
 
 
 class PartialLU(BaseMethod):
-    def __init__(self, A, b):
+    def __init__(self, A, b, **kwargs):
         self.A = np.array(A)
         self.b = np.array(b)
         self.n = len(A)

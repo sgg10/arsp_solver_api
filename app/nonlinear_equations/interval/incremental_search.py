@@ -1,6 +1,7 @@
 from sympy import Function, Symbol
 from sympy.parsing.sympy_parser import parse_expr
 from app.utils.methods import BaseMethod
+from app.grapher.grapher import Grapher
 
 
 class IncrementalSearch(BaseMethod):
@@ -13,6 +14,7 @@ class IncrementalSearch(BaseMethod):
         else:
             if x1:
                 delta = abs(float(x1) - float(x0))
+            self.x1 = x1
             self.x0 = float(x0)
             self.delta = float(delta)
             self.iterations = int(iterations)
@@ -37,8 +39,10 @@ class IncrementalSearch(BaseMethod):
 
                 if fx0 * fx1 < 0:
                     roots.append(f"root between {self.x0} and {x1}")
+                    break
                 if fx1 == 0:
                     roots.append(f'{x1} is a root')
+                    break
 
                 self.x0 = x1
                 fx0 = fx1

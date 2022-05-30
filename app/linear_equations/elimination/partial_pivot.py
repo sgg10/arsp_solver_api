@@ -3,7 +3,7 @@ from app.utils.methods import BaseMethod
 
 class PartialPivot(BaseMethod):
 
-    def __init__(self, n, A):
+    def __init__(self, n, A, **kwargs):
         self.n = int(n)
         self.A = A
 

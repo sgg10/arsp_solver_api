@@ -3,7 +3,7 @@ from app.utils.methods import BaseMethod
 
 
 class GaussianElimination(BaseMethod):
-    def __init__(self, A, b):
+    def __init__(self, A, b, **kwargs):
         self.A = np.array(A)
         self.A = np.array(A, dtype=float)
         self.b = np.array(b)

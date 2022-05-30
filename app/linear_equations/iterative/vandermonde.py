@@ -4,7 +4,7 @@ from numpy import asarray, empty, promote_types, multiply
 
 class Vandermonde(BaseMethod):
 
-    def __init__(self, x):
+    def __init__(self, x, **kwargs):
         self.x = asarray(x)
 
     def run(self):

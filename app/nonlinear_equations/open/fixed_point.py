@@ -10,7 +10,7 @@ class FixedPoint(BaseMethod):
 
     def __init__(self, xa, tolerance, iterations, f, g, **kwargs):
         self.xa = float(xa)
-        self.tol = tolerance
+        self.tol = float(tolerance)
         self.iter = int(iterations)
         self.f = f
         self.g = g

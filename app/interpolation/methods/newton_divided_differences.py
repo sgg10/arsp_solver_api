@@ -4,7 +4,7 @@ from sympy.parsing.sympy_parser import parse_expr
 
 
 class NewtonDifDiv(BaseMethod):
-    def __init__(self, n, table):
+    def __init__(self, n, table, **kwargs):
         self.n = int(n)
         self.tabla = table
 

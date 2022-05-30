@@ -4,7 +4,7 @@ import math
 
 
 class Cholesky(BaseMethod):
-    def __init__(self, n, A, b):
+    def __init__(self, n, A, b, **kwargs):
         self.X = []
         self.U = []
         self.Z = []

@@ -4,7 +4,7 @@ from sympy import *
 
 
 class SOR(BaseMethod):
-    def __init__(self, n, A, b, x0, omega, iterations, tolerance):
+    def __init__(self, n, A, b, x0, omega, iterations, tolerance, **kwargs):
         self.n = int(n)
         self.A = A
         self.b = b

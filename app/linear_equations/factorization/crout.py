@@ -3,7 +3,7 @@ import numpy as np
 
 
 class Croult(BaseMethod):
-    def __init__(self, n, A, b):
+    def __init__(self, n, A, b, **kwargs):
         self.X = []
         self.U = []
         self.Z = []

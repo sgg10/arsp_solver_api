@@ -4,7 +4,7 @@ from sympy.parsing.sympy_parser import parse_expr
 
 
 class Larange(BaseMethod):
-    def __init__(self, n, x, y):
+    def __init__(self, n, x, y, **kwargs):
         self.n = int(n)
         self.x = x
         self.y = y

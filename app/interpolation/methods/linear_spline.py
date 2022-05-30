@@ -2,7 +2,7 @@ from app.utils.methods import BaseMethod
 
 
 class LinearSpline(BaseMethod):
-    def __init__(self, n, x, y):
+    def __init__(self, n, x, y, **kwargs):
         self.n = int(n)
         self.x = x
         self.y = y

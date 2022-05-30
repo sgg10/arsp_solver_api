@@ -5,10 +5,10 @@ from sympy.parsing.sympy_parser import parse_expr
 
 class Newton(BaseMethod):
 
-    def __init__(self, function, x0, tolerance, iterations):
+    def __init__(self, function, x0, tolerance, iterations, **kwargs):
         self.function = function
-        self.x0 = x0
-        self.tol = tolerance
+        self.x0 = float(x0)
+        self.tol = float(tolerance)
         self.iterations = int(iterations)
         self.array = []
 

@@ -2,7 +2,7 @@ from app.utils.methods import BaseMethod
 
 
 class Jacobi(BaseMethod):
-    def __init__(self, n, A, b, x0, iterations, tolerance):
+    def __init__(self, n, A, b, x0, iterations, tolerance, **kwargs):
         self.n = int(n)
         self.A = A
         self.b = b
