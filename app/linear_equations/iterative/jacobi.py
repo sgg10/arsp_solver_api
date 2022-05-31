@@ -2,7 +2,9 @@
 from numpy import array, zeros, diag, diagflat, dot
 from sympy import jacobi
 
-class Jacobi():
+from app.utils.methods import BaseMethod
+
+class Jacobi(BaseMethod):
     def __init__(self, A, b, N, x0=None, tol=0.000007, **kwargs):
         self.A = A
         self.b = b
@@ -28,6 +30,7 @@ class Jacobi():
         x = self.jacobi(self.A, self.b, self.x0, self.n, self.tol)
         return {'result': {"sol": x}}
 
+'''
 if __name__ == "__main__":
     A = [[4, 1, 1, 0, 1],[-1, -3, 1, 1, 0], [2, 1, 5, -1, -1], [-1, -2, -3, -4, 0], [0, 2, -1, 1, 4]]
     b = [6,6,6,6,6]
@@ -35,3 +38,4 @@ if __name__ == "__main__":
     N = 100
     tol = 0.0000007
     print(Jacobi( A, b, N, x, tol).run())
+'''

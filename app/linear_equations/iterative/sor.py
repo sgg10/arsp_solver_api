@@ -1,60 +1,56 @@
-from app.utils.methods import BaseMethod
-from numpy import *
+#from app.utils.methods import BaseMethod
+import numpy as np
 from sympy import *
+
+from app.utils.methods import BaseMethod
 
 
 class SOR(BaseMethod):
-    def __init__(self, n, A, b, x0, omega, iterations, tolerance, **kwargs):
-        self.n = int(n)
-        self.A = A
-        self.b = b
+    def __init__(self, A, b, omega, n, x0, tol, **kwargs):
+        self.A = np.array(A)
+        self.b = np.array(b)
         self.x0 = x0
         self.omega = float(omega)
-        self.nIter = int(iterations)
-        self.tol = float(tolerance)
+        self.n = int(n)
+        self.tol = float(tol)
 
-    def calcularNuevoJacobi(self, x0, n, b, A, omega):
-        x1 = []
-        for i in range(n):
-            suma = 0
-            for j in range(n):
-                if i != j:
-                    valor = x0.pop(j)
-                    x0.insert(j, valor)
-                    suma += A[i][j] * (valor[0] if type(valor) == list else valor)
+    def sor_method(self, A, b, omega, n, x0, tol):
+        x = np.zeros_like(b, dtype=np.double)
 
-                valor = b[i]
-                valor = valor[0] if type(valor) == list else valor
-                original = x0[i]
-                elemento = (valor - suma) / A[i][i]
-                r = omega * elemento + (1 - omega) * (original[0] if type(original) == list else original)
-                x1.append(r)
-        return x1
-
-    def normaEuclidiana(self, x1, x0, n):
-        sumaCuadrados = 0
-        for i in range(n):
-            valor0 = x0[i]
-            valor0 = valor0[0] if type(valor0) == list else valor0
-            valor1 = x1[i]
-            sumaCuadrados += (valor1 - valor0) ** 2
-
-        return sqrt(sumaCuadrados)
+        iter1 = 0
+        #Iterate
+        for k in range(n):
+            iter1 = iter1 + 1   
+            x_old  = x.copy()
+            
+            #Loop over rows
+            for i in range(A.shape[0]):
+                x[i] = x[i]*(1-omega) + (omega/A[i,i])*(b[i] - np.dot(A[i,:i], x[:i]) - np.dot(A[i,(i+1):], x_old[(i+1):])) 
+                
+            
+            #Stop condition 
+            #LnormInf corresponds to the absolute value of the greatest element of the vector.
+            LnormInf = max(abs((x - x_old)))/max(abs(x_old)) 
+            if  LnormInf < tol:
+                break
+         
+        return x
 
     def run(self):
-        contador = 0
-        dispersion = self.tol + 1
-        x1 = []
-        print('Orden de los datos: n, x1, x2, x3, ... xn, dispersion')
-        iters = [{'contador': contador, 'x0': self.x0}]
-        while dispersion > self.tol and contador < self.nIter:
-            x1 = self.calcularNuevoJacobi(self.x0, self.n, self.b, self.A, self.omega)
-            dispersion = self.normaEuclidiana(x1, self.x0, self.n)
-            self.x0 = x1
-            contador += 1
-            iters.append({'contador': contador, 'x0': self.x0, 'dispersion': dispersion})
+        x = self.sor_method(self.A, self.b, self.omega, self.n, self.x0, self.tol)
+        return {'result': x}
 
-        if dispersion < self.tol:
-            return {'result': f'{x1} es una aproximacion con una toleracia de: {self.tol}'}
-        else:
-            return {'result': f'Fracaso en {self.nIter} iteraciones', 'x': x1}
+
+'''
+
+if __name__ == "__main__":
+    A = [[4, 1, 1, 0, 1],[-1, -3, 1, 1, 0], [2, 1, 5, -1, -1], [-1, -2, -3, -4, 0], [0, 2, -1, 1, 4]]
+    b = [6,6,6,6,6]
+    x0 = [0,0,0,0,0]
+    omega = 1.54
+    N = 100
+    tol = 0.0000007
+    print(SOR( A, b, omega, N, x0, tol).run())
+'''
+
+    
