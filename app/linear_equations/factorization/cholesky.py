@@ -12,7 +12,7 @@ class Cholesky():
         U = scipy.linalg.cholesky(self.A, lower=False)
         return {'result': {"L: ":L,"U: ": U}}
 
-
+'''
 if __name__ == "__main__":
     A =[
         [4, -1, 0, 3],
@@ -21,3 +21,4 @@ if __name__ == "__main__":
         [14, 5, -2, 30]
     ]
     print(Cholesky(A).run())
+'''

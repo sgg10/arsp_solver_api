@@ -1,55 +1,69 @@
-from app.utils.methods import BaseMethod
+#from app.utils.methods import BaseMethod
+from utils import regresiveSustitution
+from utils import rowOps
+from utils import getMultipliers
+from utils import swapRows
+from utils import swapCols
+from utils import isSquared
+from numpy import array, zeros, fabs, linalg
+import numpy as np
+import ast, json
+class TotalPivot():
 
+    def __init__(self, A, b, **kwargs):
+        self.a = A
+        self.b = b
 
-class TotalPivot(BaseMethod):
-    def __init__(self, n, A, **kwargs):
-        self.n = int(n)
-        self.A = A
+    def linearsolver(self,A,b):
+        n = len(A)
+        M = A
 
-    def swap_rows(self, A, higher_row, k):
-        for i in range(len(A[0])):
-            A[k][i], A[higher_row][i] = A[higher_row][i], A[k][i]
-        return A
+        i = 0
+        for x in M:
+            x.append(b[i])
+            i += 1
 
-    def swap_columns(self, A, columnaMayor, k):
-        for i in range(len(A[0])-1):
-            A[i][k], A[i][columnaMayor] = A[i][columnaMayor], A[i][k]
-        return A
+        for k in range(n):
+            print("iteration: ", k)
+            for i in range(k,n):
+                if abs(M[i][k]) > abs(M[k][k]):
+                    M[k], M[i] = M[i],M[k]
+                else:
+                    pass
 
-    def backward_substitution(self, A, n):
-        x = [0] * n
-        for i in range(n-1, 0, -1):
-            _sum = sum([A[i-1][p-1] * x[p-1] for p in range(i+1, n+1, 1)])
-            x[i-1] = (A[i-1][n-1] - _sum) / A[i-1][i-1]
-        return x
+            for j in range(k+1,n):
+                q = float(M[j][k]) / M[k][k]
+                for m in range(k, n+1):
+                    M[j][m] -=  q * M[k][m]
+            
+            for row in M:
+                print(row)
 
-    def total_pivot(self, A, n, k):
-        higher = 0
-        higher_row = k
-        higher_column = k
-        for r in range(k,n):
-            for s in range(k,n):
-                if abs(A[r][s]) > higher:
-                    higher = abs(A[r][s])
-                    higher_row = r
-                    higher_column = s
-        if higher == 0:
-            return ("El sistema no tiene solución única")
-        else:
-            if higher_row != k:
-                A = self.swap_rows(A,higher_row,k)
-            if higher_column != k:
-                A = self.swap_columns(A,higher_column,k)
-        return A
+        x = [0 for i in range(n)]
+
+        x[n-1] =float(M[n-1][n])/M[n-1][n-1]
+        for i in range (n-1,-1,-1):
+            z = 0
+            for j in range(i+1,n):
+                z = z  + float(M[i][j])*x[j]
+            x[i] = float(M[i][n] - z)/M[i][i]
+            
+        print('Coefficients: ')
+        print(x)
 
     def run(self):
-        for k in range(1,self.n):
-            self.A = self.total_pivot(self.A,self.n,k-1)
-            for i in range(k, self.n):
-                multiplier = float(self.A[i][k-1]/self.A[k-1][k-1])
-                for j in range(k,self.n+2):
-                    self.A[i][j-2] = self.A[i][j-2] - multiplier*self.A[k-1][j-2]
-        return {
-            "method_status": "success",
-            'result': self.backward_substitution(self.A,self.n)
-        }
+        self.linearsolver(self.a, self.b)
+
+        #return {'result': {"coef: ": x}}
+
+
+if __name__ == "__main__":
+    A =[
+        [4, -1, 0, 3],
+        [1, 15.5, 3, 8],
+        [0, -1.3, -4, 1.1],
+        [14, 5, -2, 30]
+        ]
+
+    b = [1, 2, 3, 4]
+    TotalPivot(A, b).run()
