@@ -1,52 +1,64 @@
 from app.utils.methods import BaseMethod
-
+import numpy as np
 
 class GaussSeidel(BaseMethod):
-    def __init__(self, n, A, b, x0, iterations, tolerance, **kwargs):
-        self.n = int(n)
-        self.A = A
-        self.b = b
-        self.x0 = x0
-        self.tol = float(tolerance)
-        self.niter = float(iterations)
-        self.vector = []
+    def __init__(self, A, b, x0, tolerance, iterations, **kwargs):
+        self.A = np.array(A, dtype=float)
+        self.b = np.array(b, dtype=float)
+        self.x0 = np.array(x0, dtype=float)
+        self.tol = tolerance
+        self.iterations = iterations
 
-    def calcularNuevoGaussSeidel(self, x0, n, b, A):
-        x1 = []
-        for i in range(n):
-            suma = 0
-            for j in range(n):
-                if j != i:
-                    valor = x0
-                    x0.insert(j, valor)
-                    print(valor[0])
-                    suma += A[i][j] * valor[0] if type(valor) == list else valor
-            valor = b.pop(i)
-            b.insert(i, valor)
-            elemento = (valor - suma) / A[i][i]
-            x1.append(elemento)
-            x0.pop(i)
-            x0.insert(i, elemento)
-        return x1
+    def diagnostics(self, a):
+        diag = np.diag(np.abs(a)) 
+        off_diag = np.sum(np.abs(a), axis=1) - diag 
+        if np.all(diag > off_diag):
+           return 1
+        else:
+            return 0
 
-    def norma(self, x1, x0, n):
-        mayor = -1
-        for i in range(n):
-            valor0 = x0[i]
-            valor1 = x1[i]
-            if abs(valor1 - valor0) > mayor:
-                mayor = abs(valor1 - valor0) / abs(valor1)
-        return mayor
+    def gauss_seidel(self,A,B,x,tol,iteramax):
+        sz = np.shape(A)
+        n = sz[0]
+        m = sz[1]
+        #  valores iniciales
+        x = np.copy(x)
+        difference = np.ones(n, dtype=float)
+        bad = 2*tol
+
+        itera = 0
+        while not(bad<=tol or itera>iteramax):
+            for i in range(0,n,1):
+                add = 0
+                for j in range(0,m,1):
+                    if (i!=j):
+                        add = add-A[i,j]*x[j]
+                        
+                nuevo = (B[i]+add)/A[i,i]
+                difference[i] = np.abs(nuevo-x[i])
+                x[i] = nuevo
+            bad = np.max(difference)
+            itera = itera + 1
+
+        x = np.transpose([x])
+        
+        if (itera>iteramax):
+                x=0
+        return x
 
     def run(self):
-        contador = 0
-        dispersion = self.tol + 1
-        x1 = []
-        self.vector.append([str(contador), str(self.x0), str(dispersion)])
-        while contador < self.niter:
-            x1 = self.calcularNuevoGaussSeidel(self.x0, self.n, self.b, self.A)
-            dispersion = self.norma(x1, self.x0, self.n)
-            self.x0 = x1
-            contador += 1
-            self.vector.append([str(contador), str(self.x0), str(dispersion)])
-        return (x1)
+        if self.diagnostics(self.A) == 0:
+            return{"result":"Matrix is not diagonally dominant"}
+        else:
+            x = self.gauss_seidel(self.A, self.b, self.x0, self.tol, self.iterations)
+            return {"result":{"x":x}}
+        
+'''
+if __name__ == "__main__":
+    A = [[-5, 2, 2],[2, 3, 0], [2, 0, 7]]
+    b = [1,1,1]
+    x = [0,0,0]
+    N = 100
+    tol = 10e-7
+    print(GaussSeidel(A,b,x,tol,N).run())
+''' 
