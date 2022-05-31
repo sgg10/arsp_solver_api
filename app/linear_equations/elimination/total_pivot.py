@@ -1,14 +1,6 @@
-#from app.utils.methods import BaseMethod
-from utils import regresiveSustitution
-from utils import rowOps
-from utils import getMultipliers
-from utils import swapRows
-from utils import swapCols
-from utils import isSquared
-from numpy import array, zeros, fabs, linalg
+from app.utils.methods import BaseMethod
 import numpy as np
-import ast, json
-class TotalPivot():
+class TotalPivot(BaseMethod):
 
     def __init__(self, A, b, **kwargs):
         self.a = A
@@ -56,7 +48,7 @@ class TotalPivot():
 
         #return {'result': {"coef: ": x}}
 
-
+'''
 if __name__ == "__main__":
     A =[
         [4, -1, 0, 3],
@@ -67,3 +59,4 @@ if __name__ == "__main__":
 
     b = [1, 2, 3, 4]
     TotalPivot(A, b).run()
+'''
