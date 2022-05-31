@@ -1,6 +1,8 @@
-from app.utils.methods import BaseMethod
+#from app.utils.methods import BaseMethod
+from numpy import array, zeros, fabs, linalg
 import numpy as np
-class TotalPivot(BaseMethod):
+import ast, json
+class TotalPivot():
 
     def __init__(self, A, b, **kwargs):
         self.a = A
@@ -48,7 +50,7 @@ class TotalPivot(BaseMethod):
 
         #return {'result': {"coef: ": x}}
 
-'''
+
 if __name__ == "__main__":
     A =[
         [4, -1, 0, 3],
@@ -59,4 +61,3 @@ if __name__ == "__main__":
 
     b = [1, 2, 3, 4]
     TotalPivot(A, b).run()
-'''
