@@ -12,6 +12,7 @@ scipy = "*"
 sympy = "*"
 matplotlib = "*"
 pyqt5 = "*"
+gunicorn = "*"
 
 [dev-packages]
 

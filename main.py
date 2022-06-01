@@ -26,3 +26,7 @@ def not_found(error):
         "name": "Error 404 - Not Found",
         "message": error.description
     }
+
+
+if __name__ == "__main__":
+    app.run(port=3000, debug=True, host="0.0.0.0")
