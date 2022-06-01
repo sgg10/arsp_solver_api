@@ -36,7 +36,12 @@ class Larange():
     def run(self):
         p = self.lagrange(self.x, self.y)
         p = simplify(p)
-        return {'result': {"Polinomio": p}}
+        return {
+            'method_status': 'success',
+            'result': {
+                "pol": str(p)
+            }
+        }
 
 '''
 if __name__ == "__main__":

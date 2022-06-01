@@ -6,8 +6,8 @@ class GaussSeidel(BaseMethod):
         self.A = np.array(A, dtype=float)
         self.b = np.array(b, dtype=float)
         self.x0 = np.array(x0, dtype=float)
-        self.tol = tolerance
-        self.iterations = iterations
+        self.tol = float(tolerance)
+        self.iterations = int(iterations)
 
     def diagnostics(self, a):
         diag = np.diag(np.abs(a)) 
@@ -48,10 +48,19 @@ class GaussSeidel(BaseMethod):
 
     def run(self):
         if self.diagnostics(self.A) == 0:
-            return{"result":"Matrix is not diagonally dominant"}
+            return {
+                "method_status": "failed",
+                "result": "Matrix is not diagonally dominant"
+            }
         else:
             x = self.gauss_seidel(self.A, self.b, self.x0, self.tol, self.iterations)
-            return {"result":{"x":x}}
+            print(x)
+            return {
+                "method_status": "success",
+                "result": {
+                    "x": list(map(lambda _x: list(_x), x))
+                }
+            }
         
 '''
 if __name__ == "__main__":

@@ -15,8 +15,11 @@ class Vandermonde(BaseMethod):
         for i in range(len(self.x)):
             vandermonde[i, :] = self.x ** i
         vandermonde = np.transpose(vandermonde[::-1])
-
-        return {"result": {"vandermonde": vandermonde}}
+        vandermonde = list(map(lambda x: list(map(lambda _x: float(_x), x)), vandermonde))
+        return {
+            "method_status": "success",
+            "result": vandermonde
+        }
 
 
     '''

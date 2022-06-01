@@ -6,13 +6,9 @@ import scipy.linalg
 class SimpleLU(BaseMethod):
 
     def __init__(self, A, b, **kwargs):
-        self.A = np.array(A)
         self.b = np.array(b)
-
-    def __init__(self, A, b, **kwargs):
         self.P, self.L, self.U = scipy.linalg.lu(A)
         self.p = np.transpose(self.P)
-        self.b = np.array(b)
 
     def back_substitution(self,U, y):
         
@@ -40,8 +36,19 @@ class SimpleLU(BaseMethod):
 
     def run(self):
         y = self.forward_substitution(self.L, self.b)
-        x = self.back_substitution(self.U, y)
-        return {"result": {"L": self.L, "U": self.U, "P": np.transpose(self.P), "x": x}}
+        x = list(self.back_substitution(self.U, y))
+        self.L = list(map(lambda _x: list(_x), self.L))
+        self.U = list(map(lambda _x: list(_x), self.U))
+        p = list(map(lambda _x: list(_x), np.transpose(self.P)))
+        return {
+            "method_status": "success",
+            "result": {
+                "L": self.L,
+                "U": self.U,
+                "P": p,
+                "x": x
+            }
+        }
 
 
 

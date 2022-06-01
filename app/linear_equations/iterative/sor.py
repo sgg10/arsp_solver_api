@@ -1,4 +1,3 @@
-#from app.utils.methods import BaseMethod
 import numpy as np
 from sympy import *
 
@@ -6,13 +5,13 @@ from app.utils.methods import BaseMethod
 
 
 class SOR(BaseMethod):
-    def __init__(self, A, b, omega, n, x0, tol, **kwargs):
+    def __init__(self, A, b, omega, iterations, x0, tolerance, **kwargs):
         self.A = np.array(A)
         self.b = np.array(b)
         self.x0 = x0
         self.omega = float(omega)
-        self.n = int(n)
-        self.tol = float(tol)
+        self.n = int(iterations)
+        self.tol = float(tolerance)
 
     def sor_method(self, A, b, omega, n, x0, tol):
         x = np.zeros_like(b, dtype=np.double)
@@ -38,7 +37,10 @@ class SOR(BaseMethod):
 
     def run(self):
         x = self.sor_method(self.A, self.b, self.omega, self.n, self.x0, self.tol)
-        return {'result': x}
+        return {
+            'method_status': 'success',
+            'result': list(x)
+        }
 
 
 '''

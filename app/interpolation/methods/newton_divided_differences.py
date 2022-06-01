@@ -54,7 +54,8 @@ class NewtonDifDiv(BaseMethod):
             "result": {
                 "matrix": m,
                 "coef": coef,
-                "pol": pol}
+                "pol": pol
+            }
         }
 
 """

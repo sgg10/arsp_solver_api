@@ -13,4 +13,7 @@ class LinearSpline(BaseMethod):
             pendiente = (self.y[i] - self.y[i - 1]) / (self.x[i] - self.x[i - 1])
             resultado = (pendiente * -self.x[i]) + self.y[i]
             respuesta.append(f'P(X{i}) = {pendiente}X + {resultado}    {self.x[i - 1]} <= X <= {self.x[i]}')
-        return {'result': respuesta}
+        return {
+            'method_status': 'success',
+            'result': respuesta
+        }

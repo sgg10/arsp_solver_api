@@ -16,8 +16,8 @@ class PartialPivot(BaseMethod):
             x.append(b[i])
             i += 1
 
+        iterations = []
         for k in range(n):
-            print("iteration: ", k)
             for i in range(k,n):
                 if abs(M[i][k]) > abs(M[k][k]):
                     M[k], M[i] = M[i],M[k]
@@ -28,9 +28,8 @@ class PartialPivot(BaseMethod):
                 q = float(M[j][k]) / M[k][k]
                 for m in range(k, n+1):
                     M[j][m] -=  q * M[k][m]
-            
-            for row in M:
-                print(row)
+
+            iterations.append([row for row in M])
 
         x = [0 for i in range(n)]
 
@@ -40,14 +39,19 @@ class PartialPivot(BaseMethod):
             for j in range(i+1,n):
                 z = z  + float(M[i][j])*x[j]
             x[i] = float(M[i][n] - z)/M[i][i]
-            
-        print('Coefficients: ')
-        print(x)
+
+        return {
+            'x': x,
+            'stages': iterations
+        }
 
     def run(self):
-        self.linearsolver(self.a, self.b)
+        result = self.linearsolver(self.a, self.b)
+        return {
+            "method_status": 'success',
+            "result": result
+        }
 
-        #return {'result': {"coef: ": x}}
 '''
 if __name__ == "__main__":
     A =[

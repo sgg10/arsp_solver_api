@@ -13,9 +13,15 @@ class Cholesky():
             return {"Error": "Matrix must be nonsingular."}
         L = scipy.linalg.cholesky(self.A, lower=True)
         U = scipy.linalg.cholesky(self.A, lower=False)
-        print(L)
-        print(U)
-        return {'result': {"L: ":L,"U: ": U}}
+        L = list(map(lambda x: list(x), L))
+        U = list(map(lambda x: list(x), U))
+        return {
+            "method_status": "success",
+            'result': {
+                "L": L,
+                "U": U
+            }
+        }
 
 '''
 if __name__ == "__main__":
