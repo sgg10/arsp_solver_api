@@ -3,7 +3,7 @@ import base64
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-matplotlib.use('Qt5agg')
+# matplotlib.use('Qt5agg')
 from sympy import Function, Symbol, diff, integrate
 from sympy.parsing.sympy_parser import parse_expr
 
