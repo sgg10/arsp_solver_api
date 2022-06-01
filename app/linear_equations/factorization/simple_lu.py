@@ -6,10 +6,6 @@ import scipy.linalg
 class SimpleLU(BaseMethod):
 
     def __init__(self, A, b, **kwargs):
-        self.A = np.array(A)
-        self.b = np.array(b)
-
-    def __init__(self, A, b, **kwargs):
         self.P, self.L, self.U = scipy.linalg.lu(A)
         self.p = np.transpose(self.P)
         self.b = np.array(b)
