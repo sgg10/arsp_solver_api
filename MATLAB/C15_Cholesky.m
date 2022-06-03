@@ -24,6 +24,9 @@ U=eye(n);
 
 %Factorización
 for i=1:n-1
+    if A(i,i)-dot(L(i,1:i-1),U(1:i-1,i)') < 0
+        fprintf(file,"Root square of a negative value. Complex numbers not supported.\n");
+    end
     L(i,i)=sqrt(A(i,i)-dot(L(i,1:i-1),U(1:i-1,i)'));
     U(i,i)=L(i,i);
     for j=i+1:n
@@ -32,17 +35,20 @@ for i=1:n-1
     for j=i+1:n
         U(i,j)=(A(i,j)-dot(L(i,1:i-1),U(1:i-1,j)'))/L(i,i);
     end
-    fprintf(file,'Etapa %u\n\n',i);
+    fprintf(file,'Etapa %u\n',i);
     fprintf(file,'\nL:\n');
     fprintf(file,[repmat(' %.6f ',1,n) '\n'], L');
     fprintf(file,'\nU:\n');
     fprintf(file,[repmat(' %.6f ',1,n) '\n'], U');
     fprintf(file,'\n');
 end
+if A(n,n)-dot(L(n,1:n-1),U(1:n-1,n)') < 0
+        fprintf(file,"Root square of a negative value. Complex numbers not supported.\n");
+end
 L(n,n)=sqrt(A(n,n)-dot(L(n,1:n-1),U(1:n-1,n)'));
 U(n,n)=L(n,n);
 
-fprintf(file,'Etapa %u\n\n',i+1);
+fprintf(file,'Etapa %u\n',i+1);
 fprintf(file,'\nL:\n');
 fprintf(file,[repmat(' %.6f ',1,n) '\n'], L');
 fprintf(file,'\nU:\n');

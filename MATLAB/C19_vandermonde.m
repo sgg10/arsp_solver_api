@@ -35,6 +35,16 @@ Coef=A\Y';
 %[Coef,M]=C10_gausstot(A,Y');
 
 fprintf(file,'\nCoef:\n');
-fprintf(file,[repmat(' %.6f ',1,n) '\n'], Coef');
+fprintf(file,[repmat(' %.6f ',1,n) '\n\n'], Coef');
+
+count = 1;
+for i=length(Coef):-1:1
+    fprintf(file,'%u',Coef(count));
+    fprintf(file,'*x^%u',i-1);
+    if i-1 > 0
+        fprintf(file,' + ');
+    end
+    count = count + 1;
+end
 
 end

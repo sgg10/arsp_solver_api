@@ -18,6 +18,14 @@ function [x,L,U,P]=C12_lupar(A,b)
 
 file=fopen('lupar.txt','w')
 
+if det(A) == 0
+    disp("Error: Det(A) = 0");
+    fprintf(fileID,'%s\r\n',"Error: Det(A) = 0"); % Genera la primera línea
+    x = NaN;
+    M = NaN;
+    return
+end
+
 %Inicialización
 n=size(A,1);
 L=eye(n);
@@ -52,7 +60,7 @@ for i=1:n-1
     U(i,i:n)=M(i,i:n);
     U(i+1,i+1:n)=M(i+1,i+1:n);
 
-    fprintf(file,'Etapa %u\n\n',i);
+    fprintf(file,'Etapa %u\n',i);
     fprintf(file,'\nL:\n');
     fprintf(file,[repmat(' %.6f ',1,n) '\n'], L');
     fprintf(file,'\nU:\n');
@@ -61,7 +69,7 @@ for i=1:n-1
 end
 U(n,n)=M(n,n);
 
-fprintf(file,'Etapa %u\n\n',i+1);
+fprintf(file,'Etapa %u\n',i+1);
 fprintf(file,'\nL:\n');
 fprintf(file,[repmat(' %.6f ',1,n) '\n'], L');
 fprintf(file,'\nU:\n');

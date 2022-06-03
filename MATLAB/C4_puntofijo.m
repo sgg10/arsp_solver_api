@@ -36,6 +36,9 @@ while E>tol && cont<Nmax
 end
 
 T = array2table(tbl, 'VariableNames',{'i' 'x' 'f(x)' 'E'});
+T.(2) = num2str(T.(2), '%.6f%');
+T.(3) = num2str(T.(3), '%.6f%');
+T.(4) = num2str(T.(4), '%.2g');
 disp(T);
 
 %Entrega de resultados

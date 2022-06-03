@@ -24,8 +24,16 @@ fprintf(fileID,'%s\r\n',"---------------");
 %NOTA: \r\n sirve como salto de línea para archivos .txt de windows.
 
 for ii = 1:length(M(:,1))
-    fprintf(fileID,'%.5f %.7d %g\t',M(ii,:)); % Imprime cada fila de la matriz
+    fprintf(fileID,'%.5f %.5f %.5f %.5f\t',M(ii,:)); % Imprime cada fila de la matriz
     fprintf(fileID,'\n'); % Genera un salto de línea
+end
+
+if det(A) == 0
+    disp("Error: Det(A) = 0");
+    fprintf(fileID,'%s\r\n',"Error: Det(A) = 0"); % Genera la primera línea
+    x = NaN;
+    M = NaN;
+    return
 end
 
 %Reducimos el sistema
@@ -54,7 +62,7 @@ for i=1:n-1
     fprintf(fileID,'%s\r\n',"Etapa " + i); % Imprime el número de la etapa
     fprintf(fileID,'%s\r\n',"---------------");
     for ii = 1:length(M(:,1))
-    fprintf(fileID,'%.5f %.7d %g \t',M(ii,:)); % Imprime cada fila de la matriz
+    fprintf(fileID,'%.5f %.5f %.5f %.5f\t',M(ii,:)); % Imprime cada fila de la matriz
     fprintf(fileID,'\n'); % Genera un salto de línea
     end
 end
@@ -72,7 +80,7 @@ fprintf(fileID,'%s\r\n',"---------------");
 fprintf(fileID,'%s\r\n',"Solución"); % Imprime el número de la etapa
 fprintf(fileID,'%s\r\n',"---------------");
 for ii = 1:length(x(:,1))
-fprintf(fileID,'%.5f %.7d %g \t',x(ii,:)); % Imprime cada fila de la matriz
+fprintf(fileID,'%.5f %.5f %.5f %.5f\t',x(ii,:)); % Imprime cada fila de la matriz
 fprintf(fileID,'\n'); % Genera un salto de línea
 end
 

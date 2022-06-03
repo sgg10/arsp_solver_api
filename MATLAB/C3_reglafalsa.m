@@ -21,6 +21,15 @@ function [x,iter,err]=C3_reglafalsa(f,a,b,tol,Nmax)
 %Inicialización
 fa=f(a);
 fb=f(b);
+
+if fa*fb >= 0
+    disp("Error: f(a)*f(b) >= 0.")
+    x = NaN;
+    iter = 0;
+    err = NaN;
+    return
+end
+
 pm=(fb*a-fa*b)/(fb-fa);
 fpm=f(pm);
 E=1000; 
@@ -47,6 +56,11 @@ end
 
 %Crear tabla a mostrar
 T = array2table(tbl, 'VariableNames',{'i' 'a' 'f(a)' 'b' 'f(b)' 'E'});
+T.(2) = num2str(T.(2), '%.6f%');
+T.(3) = num2str(T.(3), '%.6f%');
+T.(4) = num2str(T.(4), '%.6f%');
+T.(5) = num2str(T.(5), '%.6f%');
+T.(6) = num2str(T.(6), '%.2g');
 disp(T);
 
 %Entrega de resultados

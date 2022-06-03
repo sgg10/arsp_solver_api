@@ -19,7 +19,16 @@
 
 function [x,iter,err]=C17_gseidel(A,b,x0,tol,Nmax)
 
-file=fopen('gseidel.txt','w')
+file=fopen('gseidel.txt','w');
+
+if det(A) == 0
+    disp("Error: Det(A) = 0");
+    fprintf(fileID,'%s\r\n',"Error: Det(A) = 0");
+    x = NaN;
+    iter = NaN;
+    err = NaN;
+    return
+end
 
 %Inicializaci�n 
 xant=x0;
@@ -33,7 +42,8 @@ C=inv(D-L)*b;
 n=size(A,1);
 n1=size(T,1);
 n2=size(C,1);
-specratio = max(abs(eig(T)))
+specratio = max(abs(eig(T)));
+norm2 = norm(A);
 
 fprintf(file,'\nD:\n');
 fprintf(file,[repmat(' %.6f ',1,n) '\n'], D');
@@ -50,6 +60,16 @@ fprintf(file,'\n');
 fprintf(file,'\nSpectral Radio:');
 fprintf(file,[repmat(' %.6f ',1,n) '\n'], specratio);
 fprintf(file,'\n');
+
+fprintf(file,'\nEuclidean Norm (A):');
+fprintf(file,[repmat(' %.6f ',1,n) '\n'], norm2);
+fprintf(file,'\n');
+
+if specratio >= 1
+    fprintf(file,'\nWARNING: Spectral Radio is equal or higher than 1.');
+    fprintf(file,'\nMethod stopped.');
+    return
+end
 
 fprintf(file,'x(%u):', cont+1);
 fprintf(file,[repmat(' %.6f ',1,n) '\n'], xant');

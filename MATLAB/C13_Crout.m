@@ -31,9 +31,12 @@ for i=1:n-1
         L(j,i)=A(j,i)-dot(L(j,1:i-1),U(1:i-1,i)');
     end
     for j=i+1:n
+        if L(i,i) == 0
+            fprintf(file,"Division by 0 not supported. Found a zero on L's diagonal.\n");
+        end
         U(i,j)=(A(i,j)-dot(L(i,1:i-1),U(1:i-1,j)'))/L(i,i);
     end
-    fprintf(file,'Etapa %u\n\n',i);
+    fprintf(file,'Etapa %u\n',i);
     fprintf(file,'\nL:\n');
     fprintf(file,[repmat(' %.6f ',1,n) '\n'], L');
     fprintf(file,'\nU:\n');
@@ -42,7 +45,7 @@ for i=1:n-1
 end
 L(n,n)=A(n,n)-dot(L(n,1:n-1),U(1:n-1,n)');
 
-fprintf(file,'Etapa %u\n\n',i+1);
+fprintf(file,'Etapa %u\n',i+1);
 fprintf(file,'\nL:\n');
 fprintf(file,[repmat(' %.6f ',1,n) '\n'], L');
 fprintf(file,'\nU:\n');

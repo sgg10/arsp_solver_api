@@ -38,4 +38,5 @@ Coef=diag(D)';
 
 fprintf(file,'\nCoef:\n');
 fprintf(file,[repmat(' %.6f ',1,n) '\n'], Coef');
+
 end

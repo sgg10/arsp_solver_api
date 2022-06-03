@@ -68,4 +68,20 @@ end
 
 fprintf(file,'\nCoef:\n');
 fprintf(file,[repmat(' %.6f ',1,length(Coef(1,:))) '\n'], Coef');
+
+fprintf(file,'\nSplines:\n');
+lrow = length(Coef(:,1));
+lcol = length(Coef(1,:));
+for i=1:lrow
+    count = lcol-1;
+    for j=1:lcol
+        fprintf(file,' %.6f',Coef(i,j));
+        fprintf(file,'*x^%u ',count);
+        if count-1 >= 0
+            fprintf(file,' + ');
+        end
+        count = count - 1;
+    end
+    fprintf(file,'\n');
+end
 end
